@@ -33,6 +33,12 @@ public class BattleManager : MonoBehaviour
     public int choice_made;
     public Text turn_order_text;
 
+    public GameObject player_obj;
+    public GameObject ally_obj;
+    public GameObject enemy1_obj;
+    public GameObject enemy2_obj;
+    public int character_move_checks;
+
     void Start()
     {
         sequence_style = "Before Sequence";
@@ -71,6 +77,17 @@ public class BattleManager : MonoBehaviour
         which_turn = 0;
         choice_made = 0;
         turn_order_text = GameObject.Find("CharacterTurn_txt").GetComponent<Text>();
+        turn_order_text.text = "";
+
+        player_obj = GameObject.Find("player_obj");
+        player_obj.GetComponent<SpriteRenderer>().color = new Color32(109, 217, 204, 255); 
+        ally_obj = GameObject.Find("ally_obj");
+        ally_obj.GetComponent<SpriteRenderer>().color = new Color32(109, 135, 217, 255);
+        enemy1_obj = GameObject.Find("enemy1_obj");
+        enemy1_obj.GetComponent<SpriteRenderer>().color = new Color32(171, 20, 30, 255);
+        enemy2_obj = GameObject.Find("enemy2_obj");
+        enemy2_obj.GetComponent<SpriteRenderer>().color = new Color32(171, 20, 30, 255);
+        character_move_checks = 0;
     }
 
     void Update()
@@ -83,7 +100,37 @@ public class BattleManager : MonoBehaviour
                 {
                     if (turn_order[which_turn] == "Player")
                     {
-                        which_turn++;
+                        if (character_move_checks == 0 && player_obj.transform.position.x < -550)
+                        {
+                            player_obj.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+                            turn_order_text.text = "Player's Turn";
+                            player_obj.transform.Translate(1, 0,0);
+                        }
+                        else if (character_move_checks == 0 && player_obj.transform.position.x >= -550)
+                        {
+                            if (character_move_checks == 0)
+                            {
+                                character_move_checks = 1;
+                                StartCoroutine(waitSomeTime());
+                            }   
+                        }
+                        else if (character_move_checks == 2 && player_obj.transform.position.x > -770)
+                        {
+                            player_obj.transform.Translate(-1, 0, 0);
+                        }
+                        else if (character_move_checks == 2 && player_obj.transform.position.x <= -770)
+                        {
+                            if (character_move_checks == 2)
+                            {
+                                character_move_checks = 3;
+                                StartCoroutine(waitSomeTime());
+                            }
+                        }
+                        else if (character_move_checks == 4)
+                        {
+                            player_obj.GetComponent<SpriteRenderer>().color = new Color32(109, 217, 204, 255);
+                            which_turn++;
+                        }
                     }
                     else if (turn_order[which_turn] == "Ally")
                     {
@@ -264,5 +311,11 @@ public class BattleManager : MonoBehaviour
             ally_choice_menu.SetActive(false);
             choice_made = 1;
         }
+    }
+
+    IEnumerator waitSomeTime()
+    {
+        yield return new WaitForSeconds(0.5f);
+        character_move_checks++;
     }
 }
