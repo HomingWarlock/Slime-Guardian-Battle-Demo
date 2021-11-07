@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    //CODE NOT FINAL: Code will be rewritten to be short and more optimized later in development, this is for testing two different battle styles
+
     public string sequence_style;
     public Text sequence_text;
 
@@ -16,14 +18,20 @@ public class BattleManager : MonoBehaviour
     public string[] characters;
     public int[] speed;
 
-    public string[] turn_Order;
+    public string[] turn_order;
     public int highest_speed_value;
     public int highest_speed_char;
     public int speed_check;
 
-    public Text turnOrder_text;
-
     public int battle_start;
+
+    public GameObject player_choice_menu;
+    public GameObject ally_choice_menu;
+
+    public int sequence_started;
+    public int which_turn;
+    public int choice_made;
+    public Text turn_order_text;
 
     void Start()
     {
@@ -47,19 +55,89 @@ public class BattleManager : MonoBehaviour
             speed[r] = Random.Range(1, 99);
         }
 
-        turn_Order = new string[4];
+        turn_order = new string[4];
         highest_speed_value = 0;
         highest_speed_char = 0;
         speed_check = 0;
 
-        turnOrder_text = GameObject.Find("CharacterTurn_txt").GetComponent<Text>();
-
         battle_start = 0;
+
+        player_choice_menu = GameObject.Find("ChoiceMenuPlayer_bdr");
+        player_choice_menu.SetActive(false);
+        ally_choice_menu = GameObject.Find("ChoiceMenuAlly_bdr");
+        ally_choice_menu.SetActive(false);
+
+        sequence_started = 0;
+        which_turn = 0;
+        choice_made = 0;
+        turn_order_text = GameObject.Find("CharacterTurn_txt").GetComponent<Text>();
     }
 
     void Update()
     {
-
+        if (sequence_started == 1)
+        {
+            if (sequence_style == "Before Sequence")
+            {
+                if (which_turn < turn_order.Length)
+                {
+                    if (turn_order[which_turn] == "Player")
+                    {
+                        which_turn++;
+                    }
+                    else if (turn_order[which_turn] == "Ally")
+                    {
+                        which_turn++;
+                    }
+                    else if (turn_order[which_turn] == "Enemy1")
+                    {
+                        which_turn++;
+                    }
+                    else if (turn_order[which_turn] == "Enemy2")
+                    {
+                        which_turn++;
+                    }
+                }
+            }
+            else if (sequence_style == "During Sequence")
+            {
+                if (which_turn < turn_order.Length)
+                {
+                    if (turn_order[which_turn] == "Player")
+                    {
+                        if (choice_made == 0)
+                        {
+                            player_choice_menu.SetActive(true);
+                        }
+                        else if (choice_made == 1)
+                        {
+                            choice_made = 0;
+                            which_turn++;
+                        }
+                    }
+                    else if (turn_order[which_turn] == "Ally")
+                    {
+                        if (choice_made == 0)
+                        {
+                            ally_choice_menu.SetActive(true);
+                        }
+                        else if (choice_made == 1)
+                        {
+                            choice_made = 0;
+                            which_turn++;
+                        }
+                    }
+                    else if (turn_order[which_turn] == "Enemy1")
+                    {
+                        which_turn++;
+                    }
+                    else if (turn_order[which_turn] == "Enemy2")
+                    {
+                        which_turn++;
+                    }
+                }
+            }
+        }
     }
 
     public void onToggleStyle()
@@ -89,7 +167,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void startSequence()
+    public void startBattle()
     {
         if (battle_start == 0)
         {
@@ -117,18 +195,19 @@ public class BattleManager : MonoBehaviour
 
     void sortCharacters()
     {
-        for (int b = 0; b < turn_Order.Length; b++)
+        for (int b = 0; b < turn_order.Length; b++)
         {
-            turn_Order[b] = "";
+            turn_order[b] = "";
         }
 
         highest_speed_value = 0;
         highest_speed_char = 0;
         speed_check = 0;
+        which_turn = 0;
 
-        while (speed_check < turn_Order.Length)
+        while (speed_check < turn_order.Length)
         {
-            for (int s = 0; s < turn_Order.Length; s++)
+            for (int s = 0; s < turn_order.Length; s++)
             {
                 if (speed[s] > highest_speed_value)
                 {
@@ -137,14 +216,53 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            if (speed_check < turn_Order.Length)
+            if (speed_check < turn_order.Length)
             {
-                turn_Order[speed_check] = characters[highest_speed_char];
+                turn_order[speed_check] = characters[highest_speed_char];
                 speed[highest_speed_char] = 0;
                 highest_speed_value = 0;
                 highest_speed_char = 0;
                 speed_check++;
             }
+        }
+
+        if (sequence_style == "Before Sequence")
+        {
+            which_turn = 0;
+            player_choice_menu.SetActive(true);
+        }
+        else if (sequence_style == "During Sequence")
+        {
+            which_turn = 0;
+            sequence_started = 1;
+        }
+    }
+
+    public void playerAttackChoice()
+    {
+        if (sequence_style == "Before Sequence")
+        {
+            player_choice_menu.SetActive(false);
+            ally_choice_menu.SetActive(true);
+        }
+        else if (sequence_style == "During Sequence")
+        {
+            player_choice_menu.SetActive(false);
+            choice_made = 1;
+        }
+    }
+
+    public void allyAttackChoice()
+    {
+        if (sequence_style == "Before Sequence")
+        {
+            ally_choice_menu.SetActive(false);
+            sequence_started = 1;
+        }
+        else if (sequence_style == "During Sequence")
+        {
+            ally_choice_menu.SetActive(false);
+            choice_made = 1;
         }
     }
 }
