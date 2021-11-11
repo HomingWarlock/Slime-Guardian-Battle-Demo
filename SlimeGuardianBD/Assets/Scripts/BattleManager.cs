@@ -46,6 +46,7 @@ public class BattleManager : MonoBehaviour
     public GameObject enemy1_obj;
     public GameObject enemy2_obj;
     public int character_move_checks;
+    public int movement_speed;
 
     void Start()
     {
@@ -104,6 +105,7 @@ public class BattleManager : MonoBehaviour
         enemy2_obj = GameObject.Find("enemy2_obj");
         enemy2_obj.GetComponent<SpriteRenderer>().color = new Color32(171, 20, 30, 255);
         character_move_checks = 0;
+        movement_speed = 1000;
     }
 
     void Update()
@@ -120,7 +122,7 @@ public class BattleManager : MonoBehaviour
                         {
                             player_obj.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
                             turn_order_text.text = "Player's Turn";
-                            player_obj.transform.Translate(1, 0,0);
+                            player_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0,0);
                         }
                         else if (character_move_checks == 0 && player_obj.transform.position.x >= -550)
                         {
@@ -132,7 +134,7 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (character_move_checks == 2 && player_obj.transform.position.x > -770)
                         {
-                            player_obj.transform.Translate(-1, 0, 0);
+                            player_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 2 && player_obj.transform.position.x <= -770)
                         {
@@ -155,7 +157,7 @@ public class BattleManager : MonoBehaviour
                         {
                             ally_obj.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
                             turn_order_text.text = "Ally's Turn";
-                            ally_obj.transform.Translate(1, 0, 0);
+                            ally_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 0 && ally_obj.transform.position.x >= -550)
                         {
@@ -167,7 +169,7 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (character_move_checks == 2 && ally_obj.transform.position.x > -770)
                         {
-                            ally_obj.transform.Translate(-1, 0, 0);
+                            ally_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 2 && ally_obj.transform.position.x <= -770)
                         {
@@ -190,7 +192,7 @@ public class BattleManager : MonoBehaviour
                         {
                             enemy1_obj.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
                             turn_order_text.text = "Enemy 1's Turn";
-                            enemy1_obj.transform.Translate(-1, 0, 0);
+                            enemy1_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 0 && enemy1_obj.transform.position.x <= 200)
                         {
@@ -202,7 +204,7 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (character_move_checks == 2 && enemy1_obj.transform.position.x < 420)
                         {
-                            enemy1_obj.transform.Translate(1, 0, 0);
+                            enemy1_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 2 && enemy1_obj.transform.position.x >= 420)
                         {
@@ -225,7 +227,7 @@ public class BattleManager : MonoBehaviour
                         {
                             enemy2_obj.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
                             turn_order_text.text = "Enemy 2's Turn";
-                            enemy2_obj.transform.Translate(-1, 0, 0);
+                            enemy2_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 0 && enemy2_obj.transform.position.x <= 200)
                         {
@@ -237,7 +239,7 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (character_move_checks == 2 && enemy2_obj.transform.position.x < 420)
                         {
-                            enemy2_obj.transform.Translate(1, 0, 0);
+                            enemy2_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 2 && enemy2_obj.transform.position.x >= 420)
                         {
@@ -279,7 +281,7 @@ public class BattleManager : MonoBehaviour
                             {
                                 player_obj.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
                                 turn_order_text.text = "Player's Turn";
-                                player_obj.transform.Translate(1, 0, 0);
+                                player_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                             }
                             else if (character_move_checks == 0 && player_obj.transform.position.x >= -550)
                             {
@@ -291,7 +293,7 @@ public class BattleManager : MonoBehaviour
                             }
                             else if (character_move_checks == 2 && player_obj.transform.position.x > -770)
                             {
-                                player_obj.transform.Translate(-1, 0, 0);
+                                player_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                             }
                             else if (character_move_checks == 2 && player_obj.transform.position.x <= -770)
                             {
@@ -323,7 +325,7 @@ public class BattleManager : MonoBehaviour
                             {
                                 ally_obj.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
                                 turn_order_text.text = "Ally's Turn";
-                                ally_obj.transform.Translate(1, 0, 0);
+                                ally_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                             }
                             else if (character_move_checks == 0 && ally_obj.transform.position.x >= -550)
                             {
@@ -335,7 +337,7 @@ public class BattleManager : MonoBehaviour
                             }
                             else if (character_move_checks == 2 && ally_obj.transform.position.x > -770)
                             {
-                                ally_obj.transform.Translate(-1, 0, 0);
+                                ally_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                             }
                             else if (character_move_checks == 2 && ally_obj.transform.position.x <= -770)
                             {
@@ -360,7 +362,7 @@ public class BattleManager : MonoBehaviour
                         {
                             enemy1_obj.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
                             turn_order_text.text = "Enemy 1's Turn";
-                            enemy1_obj.transform.Translate(-1, 0, 0);
+                            enemy1_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 0 && enemy1_obj.transform.position.x <= 200)
                         {
@@ -372,7 +374,7 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (character_move_checks == 2 && enemy1_obj.transform.position.x < 420)
                         {
-                            enemy1_obj.transform.Translate(1, 0, 0);
+                            enemy1_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 2 && enemy1_obj.transform.position.x >= 420)
                         {
@@ -395,7 +397,7 @@ public class BattleManager : MonoBehaviour
                         {
                             enemy2_obj.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
                             turn_order_text.text = "Enemy 2's Turn";
-                            enemy2_obj.transform.Translate(-1, 0, 0);
+                            enemy2_obj.transform.Translate(-1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 0 && enemy2_obj.transform.position.x <= 200)
                         {
@@ -407,7 +409,7 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (character_move_checks == 2 && enemy2_obj.transform.position.x < 420)
                         {
-                            enemy2_obj.transform.Translate(1, 0, 0);
+                            enemy2_obj.transform.Translate(1 * movement_speed * Time.deltaTime, 0, 0);
                         }
                         else if (character_move_checks == 2 && enemy2_obj.transform.position.x >= 420)
                         {
@@ -510,6 +512,11 @@ public class BattleManager : MonoBehaviour
             character_move_checks = 0;
             turn_order_text.text = "";
         }
+    }
+
+    public void quitGame()
+    {
+        Application.Quit();
     }
 
     void sortCharacters()
